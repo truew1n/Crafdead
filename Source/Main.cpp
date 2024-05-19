@@ -13,8 +13,10 @@ int main(void)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    
+    std::string WindowTitle = "Crafdead";
 
-    GLFWwindow *Window = glfwCreateWindow(Width, Height, "Crafdead", NULL, NULL);
+    GLFWwindow *Window = glfwCreateWindow(Width, Height, WindowTitle.c_str(), NULL, NULL);
     if(!Window) {
         fprintf(stderr, "Failed to create GLFW Window!\n");
         glfwTerminate();
@@ -118,9 +120,30 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
 
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CCW);
+
     Camera MainCamera(Width, Height, glm::vec3(0.0f, 0.0f, 2.0f));
 
+    double CurrentTime = 0.0;
+    double PreviouseTime = 0.0;
+    double TimeDifference = 0.0;
+    uint32_t FrameCounter = 0;
+
     while(!glfwWindowShouldClose(Window)) {
+        CurrentTime = glfwGetTime();
+        TimeDifference = CurrentTime - PreviouseTime;
+        FrameCounter++;
+        if(TimeDifference >= 1.0 / 30.0) {
+            std::string FPS = std::to_string((1.0 / TimeDifference) * FrameCounter);
+            std::string MS = std::to_string((TimeDifference / FrameCounter) * 1000.0);
+            std::string NewWindowTitle = WindowTitle + " - " + FPS + "FPS / " + MS + "ms";
+            glfwSetWindowTitle(Window, NewWindowTitle.c_str());
+            PreviouseTime = CurrentTime;
+            FrameCounter = 0;
+        }
+
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         MainCamera.Inputs(Window);
