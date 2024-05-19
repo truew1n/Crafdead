@@ -82,7 +82,7 @@ uint32_t Shader::Compile(const char *Source, ShaderType Type)
         glDeleteShader(ShaderId);
         return 0;
     }
-
+    
     return ShaderId;
 }
 

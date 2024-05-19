@@ -9,7 +9,12 @@ int main(void)
     uint32_t Width = 1920;
     uint32_t Height = 1080;
 
-    GLFWwindow *Window = glfwCreateWindow(Width, Height, "3 Days to Die", NULL, NULL);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
+    GLFWwindow *Window = glfwCreateWindow(Width, Height, "Crafdead", NULL, NULL);
     if(!Window) {
         fprintf(stderr, "Failed to create GLFW Window!\n");
         glfwTerminate();
@@ -73,6 +78,7 @@ int main(void)
 
 
     Shader DefaultShader;
+    DefaultShader.Create();
     DefaultShader.Load("Source\\Resource\\Shader\\Default.vert", ShaderType::VERTEX);
     DefaultShader.Load("Source\\Resource\\Shader\\Default.frag", ShaderType::FRAGMENT);
 	
@@ -83,6 +89,7 @@ int main(void)
     Mesh Floor(&VecVertices, &VecIndices, &VecTextures);
 
 	Shader LightShader;
+    LightShader.Create();
     LightShader.Load("Source\\Resource\\Shader\\Light.vert", ShaderType::VERTEX);
     LightShader.Load("Source\\Resource\\Shader\\Light.frag", ShaderType::FRAGMENT);
 	
@@ -120,7 +127,7 @@ int main(void)
 		MainCamera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
 		Floor.Draw(&DefaultShader, &MainCamera);
-		// Light.Draw(&LightShader, &MainCamera);
+		Light.Draw(&LightShader, &MainCamera);
         
         glfwSwapBuffers(Window);
         glfwPollEvents();
