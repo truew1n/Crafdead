@@ -35,7 +35,7 @@ public:
     Camera(int32_t Width, int32_t Height, glm::vec3 Position);
 
     void UpdateMatrix(float FOV, float NearPlane, float FarPlane);
-    void Matrix(Shader *TargetShader, const char *Uniform);
+    void Matrix(Shader *OShader, const char *Uniform);
     void Inputs(GLFWwindow *Window);
 };
 #endif

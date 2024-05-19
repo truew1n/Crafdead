@@ -14,7 +14,7 @@ public:
 
 	Texture(const char *Image, const char *TexType, uint32_t Slot, uint32_t Format, uint32_t PixelType);
 
-	void TexUnit(Shader *TargetShader, const char *Uniform, uint32_t Unit);
+	void TexUnit(Shader *OShader, const char *Uniform, uint32_t Unit);
 	void Bind();
 	void Unbind();
 	void Delete();

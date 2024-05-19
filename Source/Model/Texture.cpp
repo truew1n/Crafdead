@@ -25,11 +25,11 @@ Texture::Texture(const char *Image, const char *TexType, uint32_t Slot, uint32_t
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::TexUnit(Shader *TargetShader, const char *Uniform, uint32_t Unit)
+void Texture::TexUnit(Shader *OShader, const char *Uniform, uint32_t Unit)
 {
-	uint32_t TexUnitLocation = glGetUniformLocation(TargetShader->Id, Uniform);
+	uint32_t TexUnitLocation = glGetUniformLocation(OShader->Id, Uniform);
 	
-	TargetShader->Activate();
+	OShader->Activate();
 	
 	glUniform1i(TexUnitLocation, Unit);
 }

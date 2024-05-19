@@ -32,18 +32,18 @@ uint8_t Shader::Load(const char *Filepath, ShaderType Type)
 
     fclose(File);
 
-    uint32_t TypeShader = Compile(Content, Type);
+    uint32_t ShaderId = Compile(Content, Type);
 
-    if(!TypeShader) {
+    if(!ShaderId) {
         free(Content);
         return 0;
     }
 
-    glAttachShader(Id, TypeShader);
+    glAttachShader(Id, ShaderId);
     glLinkProgram(Id);
     glValidateProgram(Id);
 
-    glDeleteShader(TypeShader);
+    glDeleteShader(ShaderId);
 
     free(Content);
     return 1;
@@ -62,28 +62,28 @@ uint32_t Shader::Compile(const char *Source, ShaderType Type)
             break;
         }
     }
-    uint32_t Id = glCreateShader(GLType);
-    glShaderSource(Id, 1, &Source, nullptr);
-    glCompileShader(Id);
+    uint32_t ShaderId = glCreateShader(GLType);
+    glShaderSource(ShaderId, 1, &Source, nullptr);
+    glCompileShader(ShaderId);
 
     int32_t Result;
-    glGetShaderiv(Id, GL_COMPILE_STATUS, &Result);
+    glGetShaderiv(ShaderId, GL_COMPILE_STATUS, &Result);
     if(!Result) {
         int32_t Length;
-        glGetShaderiv(Id, GL_INFO_LOG_LENGTH, &Length);
+        glGetShaderiv(ShaderId, GL_INFO_LOG_LENGTH, &Length);
         char *Message = (char *) malloc(Length * sizeof(char));
-        glGetShaderInfoLog(Id, Length, &Length, Message);
+        glGetShaderInfoLog(ShaderId, Length, &Length, Message);
         printf(
             "Failed to compile %s shader!\n%s\n",
             (GLType == GL_VERTEX_SHADER ? "vertex" : "fragment"),
             Message
         );
         free(Message);
-        glDeleteShader(Id);
+        glDeleteShader(ShaderId);
         return 0;
     }
 
-    return Id;
+    return ShaderId;
 }
 
 void Shader::Create()

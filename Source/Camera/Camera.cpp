@@ -23,10 +23,10 @@ void Camera::UpdateMatrix(float FOV, float NearPlane, float FarPlane)
     CameraMatrix = Projection * View;
 }
 
-void Camera::Matrix(Shader *TargetShader, const char *Uniform)
+void Camera::Matrix(Shader *OShader, const char *Uniform)
 {
     uint32_t TargetLocation = glGetUniformLocation(
-        TargetShader->Id,
+        OShader->Id,
         Uniform
     );
     glUniformMatrix4fv(TargetLocation, 1, GL_FALSE, glm::value_ptr(CameraMatrix));

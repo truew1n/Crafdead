@@ -1,19 +1,4 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <assert.h>
-
-#include <GL/glew.h>
-#include <GLFW/glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
-
-#include "Texture.hpp"
-
-#include "Shader.hpp"
-
-#include "Camera.hpp"
+#include "Mesh.hpp"
 
 int main(void)
 {
@@ -42,67 +27,87 @@ int main(void)
     printf("OpenGL Version: %s\n", glGetString(GL_VERSION));
 
 
-    float positions[] = {
-        -0.5f, 0.0f, 0.5f,      0.0f, 0.0f,
-        -0.5f, 0.0f, -0.5f,      5.0f, 0.0f,
-        0.5f, 0.0f, -0.5f,      0.0f, 0.0f,
-        0.5f, 0.0f, 0.5f,      5.0f, 0.0f,
-        0.0f, 0.8f, 0.0f,      2.5f, 5.0f
+    Vertex Vertices[] = {
+        Vertex{glm::vec3(-1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 0.0f)},
+        Vertex{glm::vec3(-1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(0.0f, 1.0f)},
+        Vertex{glm::vec3( 1.0f, 0.0f, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 1.0f)},
+        Vertex{glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
     };
 
-    uint32_t indecies[] = {
+    uint32_t Indices[] = {
+        0, 1, 2,
+        0, 2, 3
+    };
+
+    Vertex LightVertices[] = {
+        Vertex{glm::vec3(-0.1f, -0.1f,  0.1f)},
+        Vertex{glm::vec3(-0.1f, -0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f, -0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f, -0.1f,  0.1f)},
+        Vertex{glm::vec3(-0.1f,  0.1f,  0.1f)},
+        Vertex{glm::vec3(-0.1f,  0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f,  0.1f, -0.1f)},
+        Vertex{glm::vec3(0.1f,  0.1f,  0.1f)}
+    };
+
+    uint32_t LightIndices[] = {
         0, 1, 2,
         0, 2, 3,
-        0, 1, 4,
-        1, 2, 4,
-        2, 3, 4,
-        3, 0, 4
+        0, 4, 7,
+        0, 7, 3,
+        3, 7, 6,
+        3, 6, 2,
+        2, 6, 5,
+        2, 5, 1,
+        1, 5, 4,
+        1, 4, 0,
+        4, 5, 6,
+        4, 6, 7
     };
 
-    uint32_t buffer;
-    glGenBuffers(1, &buffer);
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);
-    glBufferData(GL_ARRAY_BUFFER, 25 * sizeof(float), positions, GL_STATIC_DRAW);
+    Texture Textures[]
+	{
+		Texture("Assets\\Image\\Planks.bmp", "Diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
+		Texture("Assets\\Image\\PlanksSpecular.bmp", "Specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+	};
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void *)0);
-    glEnableVertexAttribArray(0);
 
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-    glEnableVertexAttribArray(1);
+    Shader DefaultShader;
+    DefaultShader.Load("Source\\Resource\\Shader\\Default.vert", ShaderType::VERTEX);
+    DefaultShader.Load("Source\\Resource\\Shader\\Default.frag", ShaderType::FRAGMENT);
+	
+	std::vector<Vertex> VecVertices(Vertices, Vertices + sizeof(Vertices) / sizeof(Vertex));
+	std::vector<uint32_t> VecIndices(Indices, Indices + sizeof(Indices) / sizeof(uint32_t));
+	std::vector<Texture> VecTextures(Textures, Textures + sizeof(Textures) / sizeof(Texture));
+	
+    Mesh Floor(&VecVertices, &VecIndices, &VecTextures);
 
-    uint32_t indexBuffer;
-    glGenBuffers(1, &indexBuffer);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, indexBuffer);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 18 * sizeof(uint32_t), indecies, GL_STATIC_DRAW);
+	Shader LightShader;
+    LightShader.Load("Source\\Resource\\Shader\\Light.vert", ShaderType::VERTEX);
+    LightShader.Load("Source\\Resource\\Shader\\Light.frag", ShaderType::FRAGMENT);
+	
+	std::vector<Vertex> VecLightVertices(LightVertices, LightVertices + sizeof(LightVertices) / sizeof(Vertex));
+	std::vector<uint32_t> VecLightIndices(LightIndices, LightIndices + sizeof(LightIndices) / sizeof(uint32_t));
+	
+	Mesh Light(&VecLightVertices, &VecLightIndices, &VecTextures);
 
-    Shader DefaultShader = Shader();
-    DefaultShader.Create();
-    DefaultShader.Load("Source\\Resource\\Shader\\Basic.vert", ShaderType::VERTEX);
-    DefaultShader.Load("Source\\Resource\\Shader\\Basic.frag", ShaderType::FRAGMENT);
-    DefaultShader.Activate();
+	glm::vec4 LightColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+	glm::vec3 LightPos = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::mat4 LightModel = glm::mat4(1.0f);
+	LightModel = glm::translate(LightModel, LightPos);
 
-    bmp_t BrickTexture = open_bmp("Assets\\Image\\Bricks.bmp");
+	glm::vec3 ObjectPos = glm::vec3(0.0f, 0.0f, 0.0f);
+	glm::mat4 ObjectModel = glm::mat4(1.0f);
+	ObjectModel = glm::translate(ObjectModel, ObjectPos);
 
-    uint32_t Textures;
-    glGenTextures(1, &Textures);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, Textures);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, BrickTexture.width, BrickTexture.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, BrickTexture.memory);
-
-    free(BrickTexture.memory);
-    glBindTexture(GL_TEXTURE_2D, 0);
-    glGenerateMipmap(GL_TEXTURE_2D);
-
-    uint32_t location = glGetUniformLocation(DefaultShader.Id, "Tex0");
-    assert(location != -1);
-    glUniform1i(location, 0);
+	LightShader.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(LightShader.Id, "model"), 1, GL_FALSE, glm::value_ptr(LightModel));
+	glUniform4f(glGetUniformLocation(LightShader.Id, "lightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
+	DefaultShader.Activate();
+	glUniformMatrix4fv(glGetUniformLocation(DefaultShader.Id, "model"), 1, GL_FALSE, glm::value_ptr(ObjectModel));
+	glUniform4f(glGetUniformLocation(DefaultShader.Id, "lightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
+	glUniform3f(glGetUniformLocation(DefaultShader.Id, "lightPos"), LightPos.x, LightPos.y, LightPos.z);
 
     glEnable(GL_DEPTH_TEST);
 
@@ -112,18 +117,17 @@ int main(void)
         glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
         MainCamera.Inputs(Window);
-        MainCamera.UpdateMatrix(60.0f, 0.1f, 100.0f);
-        MainCamera.Matrix(&DefaultShader, "CameraMatrix");
+		MainCamera.UpdateMatrix(45.0f, 0.1f, 100.0f);
 
-        glBindTexture(GL_TEXTURE_2D, Textures);
-        glDrawElements(GL_TRIANGLES, 18, GL_UNSIGNED_INT, nullptr);
+		Floor.Draw(&DefaultShader, &MainCamera);
+		// Light.Draw(&LightShader, &MainCamera);
         
         glfwSwapBuffers(Window);
         glfwPollEvents();
     }
     
-    glDeleteTextures(1, &Textures);
     DefaultShader.Delete();
+	LightShader.Delete();
     glfwDestroyWindow(Window);
     glfwTerminate();
     return 0;
