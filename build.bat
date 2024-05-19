@@ -28,7 +28,7 @@ set "BuildType=Debug"
 
 set "OutputDirectory=Build\%BuildType%"
 
-set "OutputName=3DaysToDie"
+set "OutputName=Crafdead"
 
 g++ -o %OutputDirectory%/%OutputName% %MainFileDirectory% %AllClasses% -lglfw3 -lglew32 -lopengl32 %IncludeDirectories%
 
