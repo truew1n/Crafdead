@@ -8,6 +8,7 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include "file.h"
 
 enum class ShaderType : uint8_t {
     VERTEX,

@@ -1,5 +1,5 @@
-#ifndef DTD_CAMERA_H
-#define DTD_CAMERA_H
+#ifndef CFD_CAMERA_H
+#define CFD_CAMERA_H
 
 #include <stdlib.h>
 #include <GL/glew.h>

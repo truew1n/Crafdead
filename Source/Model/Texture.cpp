@@ -1,6 +1,6 @@
 #include "Texture.hpp"
 
-Texture::Texture(const char *Image, const char *TexType, uint32_t Slot, uint32_t Format, uint32_t PixelType)
+Texture::Texture(const char *Image, const char *TexType, uint32_t Slot)
 {
     Type = TexType;
 
@@ -18,7 +18,14 @@ Texture::Texture(const char *Image, const char *TexType, uint32_t Slot, uint32_t
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, Format, PixelType, TextureImage.memory);
+	if(TextureImage.channels == 4) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, TextureImage.memory);
+    } else if(TextureImage.channels == 3) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage.memory);
+    } else if(TextureImage.channels == 1) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, GL_RED, GL_UNSIGNED_BYTE, TextureImage.memory);
+    }
+	
 	glGenerateMipmap(GL_TEXTURE_2D);
 
 	free(TextureImage.memory);

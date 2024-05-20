@@ -1,0 +1,101 @@
+# Blender 3.6.2 MTL File: 'None'
+# www.blender.org
+
+newmtl Yucca_eleph_bark_02
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_bark_02_LOD0_Color.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_bark_02_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_bark_03
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_bark_03_LOD0_Color.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_bark_03_n2_LOD0_Normal.png
+
+newmtl Yucca_eleph_crownshaft_01
+Ns 10.000005
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_crownshaft_01_Yucca_eleph_crownshaft_LOD0_Color.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_crownshaft_01_Yucca_eleph_crownshaft_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_leaf_01
+Ns 40.551991
+Ka 1.000000 1.000000 1.000000
+Ks 0.200000 0.200000 0.200000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_01_LOD0_Color.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_01_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_leaf_01b
+Ns 40.551991
+Ka 1.000000 1.000000 1.000000
+Ks 0.100000 0.100000 0.100000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_01b_LOD0_Color.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_01_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_leaf_02
+Ns 40.551991
+Ka 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_02b_LOD0_Color.png
+map_Ks C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_02_hl_LOD0_Specular.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_02_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_leaf_03
+Ns 40.551991
+Ka 1.000000 1.000000 1.000000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_03_Yucca_eleph_dead_leaf_01_LOD0_Color.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_03_Yucca_eleph_dead_leaf_01_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_leaf_04
+Ns 40.551991
+Ka 1.000000 1.000000 1.000000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_04_Yucca_eleph_dead_leaf_02_LOD0_Color.png
+map_d C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_04_Yucca_eleph_dead_leaf_01_a1_LOD0_Transparency.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_03_Yucca_eleph_dead_leaf_01_n_LOD0_Normal.png
+
+newmtl Yucca_eleph_leaf_05
+Ns 40.551991
+Ka 1.000000 1.000000 1.000000
+Ks 0.050000 0.050000 0.050000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+illum 2
+map_Kd C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_05_Yucca_eleph_dead_leaf_03_LOD0_Color.png
+map_d C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_05_Yucca_eleph_dead_leaf_01_a2_LOD0_Transparency.png
+map_Bump C:/Users/Adam/Desktop/C++/Crafdead/Assets/Models/Yucca_elephantipes_HD_Yucca_eleph_leaf_03_Yucca_eleph_dead_leaf_01_n_LOD0_Normal.png

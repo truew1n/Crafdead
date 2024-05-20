@@ -1,5 +1,5 @@
-#ifndef DTD_ELEMENT_BUFFER_H
-#define DTD_ELEMENT_BUFFER_H
+#ifndef CFD_ELEMENT_BUFFER_H
+#define CFD_ELEMENT_BUFFER_H
 
 #include <GL/glew.h>
 #include <vector>

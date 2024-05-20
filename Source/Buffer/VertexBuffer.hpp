@@ -1,15 +1,15 @@
-#ifndef DTD_VERTEX_BUFFER_H
-#define DTD_VERTEX_BUFFER_H
+#ifndef CFD_VERTEX_BUFFER_H
+#define CFD_VERTEX_BUFFER_H
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>
 #include <vector>
 
 typedef struct Vertex {
-	glm::vec3 position;
-	glm::vec3 normal;
-	glm::vec3 color;
-	glm::vec2 texUV;
+	glm::vec3 Position;
+	glm::vec3 Normal;
+	glm::vec3 Color;
+	glm::vec2 UV;
 } Vertex;
 
 class VertexBuffer {

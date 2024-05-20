@@ -1,5 +1,5 @@
-#ifndef DTD_TEXTURE_H
-#define DTD_TEXTURE_H
+#ifndef CFD_TEXTURE_H
+#define CFD_TEXTURE_H
 
 #include <GL/glew.h>
 #include "bmp.h"
@@ -12,7 +12,7 @@ public:
 	const char* Type;
 	uint32_t Unit;
 
-	Texture(const char *Image, const char *TexType, uint32_t Slot, uint32_t Format, uint32_t PixelType);
+	Texture(const char *Image, const char *TexType, uint32_t Slot);
 
 	void TexUnit(Shader *OShader, const char *Uniform, uint32_t Unit);
 	void Bind();

@@ -1,5 +1,5 @@
-#ifndef DTD_VERTEX_ARRAY_H
-#define DTD_VERTEX_ARRAY_H
+#ifndef CFD_VERTEX_ARRAY_H
+#define CFD_VERTEX_ARRAY_H
 
 #include <GL/glew.h>
 #include "VertexBuffer.hpp"

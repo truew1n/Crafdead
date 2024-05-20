@@ -74,8 +74,8 @@ int main(void)
 
     Texture Textures[]
 	{
-		Texture("Assets\\Image\\Planks.bmp", "Diffuse", 0, GL_RGBA, GL_UNSIGNED_BYTE),
-		Texture("Assets\\Image\\PlanksSpecular.bmp", "Specular", 1, GL_RED, GL_UNSIGNED_BYTE)
+		Texture("Assets\\Image\\Planks.bmp", "Diffuse", 0),
+		Texture("Assets\\Image\\PlanksSpecular.bmp", "Specular", 1)
 	};
 
 
@@ -111,13 +111,13 @@ int main(void)
 
 
 	LightShader.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(LightShader.Id, "model"), 1, GL_FALSE, glm::value_ptr(LightModel));
-	glUniform4f(glGetUniformLocation(LightShader.Id, "lightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
+	glUniformMatrix4fv(glGetUniformLocation(LightShader.Id, "Model"), 1, GL_FALSE, glm::value_ptr(LightModel));
+	glUniform4f(glGetUniformLocation(LightShader.Id, "LightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
 
 	DefaultShader.Activate();
-	glUniformMatrix4fv(glGetUniformLocation(DefaultShader.Id, "model"), 1, GL_FALSE, glm::value_ptr(ObjectModel));
-	glUniform4f(glGetUniformLocation(DefaultShader.Id, "lightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
-	glUniform3f(glGetUniformLocation(DefaultShader.Id, "lightPos"), LightPos.x, LightPos.y, LightPos.z);
+	glUniformMatrix4fv(glGetUniformLocation(DefaultShader.Id, "Model"), 1, GL_FALSE, glm::value_ptr(ObjectModel));
+	glUniform4f(glGetUniformLocation(DefaultShader.Id, "LightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
+	glUniform3f(glGetUniformLocation(DefaultShader.Id, "LightPosition"), LightPos.x, LightPos.y, LightPos.z);
 
     glEnable(GL_DEPTH_TEST);
 

@@ -3,34 +3,7 @@
 
 uint8_t Shader::Load(const char *Filepath, ShaderType Type)
 {
-    FILE* File = fopen(Filepath, "rb");
-    if (File == NULL) {
-        fprintf(stderr, "Error opening file %s\n", Filepath);
-        return 0;
-    }
-
-    fseek(File, 0, SEEK_END);
-    long FileSize = ftell(File);
-    fseek(File, 0, SEEK_SET);
-
-    char *Content = (char*)malloc(FileSize + 1);
-    if (Content == NULL) {
-        fclose(File);
-        fprintf(stderr, "Memory allocation error\n");
-        return 0;
-    }
-
-    size_t BytesRead = fread(Content, 1, FileSize, File);
-    if (BytesRead < FileSize) {
-        fclose(File);
-        free(Content);
-        fprintf(stderr, "Error reading File %s\n", Filepath);
-        return 0;
-    }
-
-    Content[FileSize] = '\0';
-
-    fclose(File);
+    char *Content = read_file(Filepath);
 
     uint32_t ShaderId = Compile(Content, Type);
 
