@@ -4,7 +4,6 @@ out vec4 FragColor;
 
 in vec3 Position;
 in vec3 Normal;
-in vec3 Color;
 in vec2 UV;
 
 uniform sampler2D Diffuse0;
