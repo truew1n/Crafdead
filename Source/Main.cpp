@@ -9,8 +9,8 @@ int main(void)
     uint32_t Width = 1920;
     uint32_t Height = 1080;
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
 
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     
@@ -41,7 +41,7 @@ int main(void)
         Vertex{glm::vec3( 1.0f, 0.0f,  1.0f), glm::vec3(0.0f, 1.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f), glm::vec2(1.0f, 0.0f)}
     };
 
-    uint32_t Indices[] = {
+    uint32_t Indices[] = {  
         0, 1, 2,
         0, 2, 3
     };
@@ -58,18 +58,18 @@ int main(void)
     };
 
     uint32_t LightIndices[] = {
-        0, 1, 2,
-        0, 2, 3,
+        0, 2, 1,
+        0, 3, 2,
+        4, 5, 6,
+        4, 6, 7,
         0, 4, 7,
         0, 7, 3,
+        1, 2, 6,
+        1, 6, 5,
+        0, 1, 5,
+        0, 5, 4,
         3, 7, 6,
-        3, 6, 2,
-        2, 6, 5,
-        2, 5, 1,
-        1, 5, 4,
-        1, 4, 0,
-        4, 5, 6,
-        4, 6, 7
+        3, 6, 2
     };
 
     Texture Textures[]
@@ -113,6 +113,7 @@ int main(void)
 	LightShader.Activate();
 	glUniformMatrix4fv(glGetUniformLocation(LightShader.Id, "model"), 1, GL_FALSE, glm::value_ptr(LightModel));
 	glUniform4f(glGetUniformLocation(LightShader.Id, "lightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
+
 	DefaultShader.Activate();
 	glUniformMatrix4fv(glGetUniformLocation(DefaultShader.Id, "model"), 1, GL_FALSE, glm::value_ptr(ObjectModel));
 	glUniform4f(glGetUniformLocation(DefaultShader.Id, "lightColor"), LightColor.x, LightColor.y, LightColor.z, LightColor.w);
@@ -130,6 +131,9 @@ int main(void)
     double PreviouseTime = 0.0;
     double TimeDifference = 0.0;
     uint32_t FrameCounter = 0;
+
+    // Wireframe
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     while(!glfwWindowShouldClose(Window)) {
         CurrentTime = glfwGetTime();
