@@ -1,10 +1,11 @@
 #include "Texture.hpp"
-
-Texture::Texture(const char *Image, const char *TexType, uint32_t Slot)
+#include <iostream>
+Texture::Texture(const char *Image, const char *TextureType, uint32_t Slot)
 {
-    Type = TexType;
+    Type = TextureType;
 
-    bmp_t TextureImage = open_bmp(Image);
+	int32_t TextureWidth, TextureHeight, TextureChannels;
+	uint8_t *TextureData = stbi_load(Image, &TextureWidth, &TextureHeight, &TextureChannels, 0);
 
 	glGenTextures(1, &Id);
 	
@@ -12,33 +13,33 @@ Texture::Texture(const char *Image, const char *TexType, uint32_t Slot)
 	Unit = Slot;
 	glBindTexture(GL_TEXTURE_2D, Id);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST_MIPMAP_LINEAR);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
-	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
 
-	if(TextureImage.channels == 4) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, GL_RGBA, GL_UNSIGNED_BYTE, TextureImage.memory);
-    } else if(TextureImage.channels == 3) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureImage.memory);
-    } else if(TextureImage.channels == 1) {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureImage.width, TextureImage.height, 0, GL_RED, GL_UNSIGNED_BYTE, TextureImage.memory);
+	if(TextureChannels == 4) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureWidth, TextureHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, TextureData);
+    } else if(TextureChannels == 3) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureWidth, TextureHeight, 0, GL_RGB, GL_UNSIGNED_BYTE, TextureData);
+    } else if(TextureChannels == 1) {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, TextureWidth, TextureHeight, 0, GL_RED, GL_UNSIGNED_BYTE, TextureData);
     }
 	
 	glGenerateMipmap(GL_TEXTURE_2D);
 
-	free(TextureImage.memory);
+	stbi_image_free(TextureData);
 	glBindTexture(GL_TEXTURE_2D, 0);
 }
 
-void Texture::TexUnit(Shader *OShader, const char *Uniform, uint32_t Unit)
+void Texture::TextureUnit(Shader *OShader, const char *Uniform, uint32_t Unit)
 {
-	uint32_t TexUnitLocation = glGetUniformLocation(OShader->Id, Uniform);
-	
 	OShader->Activate();
+
+	uint32_t TexUnitLocation = glGetUniformLocation(OShader->GetId(), Uniform);
 	
-	glUniform1i(TexUnitLocation, Unit);
+	glUniform1i(TexUnitLocation, Unit);	
 }
 
 void Texture::Bind()

@@ -18,5 +18,5 @@ void main()
 	Normal = LNormal;
 	UV = LUV;
 	
-	gl_Position = CameraMatrix * vec4(Position, 1.0);
+	gl_Position = CameraMatrix * vec4(LPosition, 1.0);
 }

@@ -1,23 +1,28 @@
-#ifndef CFD_TEXTURE_H
-#define CFD_TEXTURE_H
+#ifndef CFD_TEXTURE_HPP
+#define CFD_TEXTURE_HPP
 
 #include <GL/glew.h>
-#include "bmp.h"
 
 #include "Shader.hpp"
 
+#include "stb_image.h"
+
 class Texture {
-public:
+private:
 	uint32_t Id;
-	const char* Type;
+	const char *Type;
 	uint32_t Unit;
+public:
+	Texture() : Id(0), Type(nullptr), Unit(0) {};
+	Texture(const char *Image, const char *TextureType, uint32_t Slot);
 
-	Texture(const char *Image, const char *TexType, uint32_t Slot);
-
-	void TexUnit(Shader *OShader, const char *Uniform, uint32_t Unit);
+	void TextureUnit(Shader *OShader, const char *Uniform, uint32_t Unit);
 	void Bind();
 	void Unbind();
 	void Delete();
+
+	uint32_t GetId() { return Id; }
+	const char *GetType() { return Type; }
 };
 
 #endif

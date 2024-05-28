@@ -1,10 +1,34 @@
-#ifndef CFD_MODEL_H
-#define CFD_MODEL_H
+#ifndef CFD_MODEL_HPP
+#define CFD_MODEL_HPP
 
-#include "Mesh.hpp"
+#include <iostream>
+#include <fstream>
+#include <sstream>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include "StaticMesh.hpp"
+
+class Model {
+private:
+    uint8_t bIsLoaded;
+    std::vector<StaticMesh> StaticMeshes;
+    
+    void Split(std::string *String, std::vector<std::string> *Tokens, char Delimiter);
+    void ParseMTL(const char *Filepath, std::unordered_map<std::string, std::string> *MTL);
+public:
+    Model() : bIsLoaded(false), StaticMeshes() {}
+    void LoadOBJ(const char *Filepath);
+
+    void Draw(Shader *OShader, Camera *OCamera);
+};
+
+#endif
 
 /* Notes
-Mesh will hold:
+Model will hold:
+    Meshes
+StaticMesh will hold:
     Vertices
     Indices
     Materials
@@ -44,18 +68,9 @@ Ks 0.050000 0.050000 0.050000                   | Specular Reflectivity
 Ke 0.000000 0.000000 0.000000                   | Emissive Color
 Ni 1.450000                                     | Optical Density / Index of Refraction
 illum 2                                         | Illumination Model
-map_Kd texture_01_color.png                     | Diffuse - Texture
-map_d texture_01_transparency.png               | Transparency - Texture
-map_Bump texture_01_normal.png                  | Normal - Texture
+d
+map_Kd texture_01_Color.png                     | Diffuse - Texture
+map_d texture_01_Transparency.png               | Transparency - Texture
+map_Ks texture_Specular.png                     | Specular - Texture
+map_Bump texture_01_Normal.png                  | Normal - Texture
 */
-
-class Model {
-private:
-    
-public:
-    Model(const char *Filepath);
-
-    void Draw(Shader *OShader, Camera *OCamera);
-};
-
-#endif

@@ -26,7 +26,7 @@ void Camera::UpdateMatrix(float FOV, float NearPlane, float FarPlane)
 void Camera::Matrix(Shader *OShader, const char *Uniform)
 {
     uint32_t TargetLocation = glGetUniformLocation(
-        OShader->Id,
+        OShader->GetId(),
         Uniform
     );
     glUniformMatrix4fv(TargetLocation, 1, GL_FALSE, glm::value_ptr(CameraMatrix));

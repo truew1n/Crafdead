@@ -1,5 +1,5 @@
-#ifndef CFD_VERTEX_BUFFER_H
-#define CFD_VERTEX_BUFFER_H
+#ifndef CFD_VERTEX_BUFFER_HPP
+#define CFD_VERTEX_BUFFER_HPP
 
 #include <glm/glm.hpp>
 #include <GL/glew.h>

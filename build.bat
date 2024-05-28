@@ -9,7 +9,8 @@ set "VertexBufferClass=Source\Buffer\VertexBuffer.cpp"
 set "VertexArrayClass=Source\Buffer\VertexArray.cpp"
 set "BufferID=-ISource\Buffer"
 
-set "MeshClass=Source\Model\Mesh.cpp"
+set "StaticMeshClass=Source\Model\StaticMesh.cpp"
+set "MaterialClass=Source\Model\Material.cpp"
 set "TextureClass=Source\Model\Texture.cpp"
 set "ModelClass=Source\Model\Model.cpp"
 set "ModelID=-ISource\Model"
@@ -20,7 +21,9 @@ set "CameraID=-ISource\Camera"
 set "ShaderClass=Source\Shader\Shader.cpp"
 set "ShaderID=-ISource\Shader"
 
-set "AllClasses=%ShaderClass% %CameraClass% %ElementBufferClass% %VertexBufferClass% %VertexArrayClass% %MeshClass% %TextureClass% %ModelClass%"
+set "STBClass=Source\Lib\stb_image.cpp"
+
+set "AllClasses=%STBClass% %ShaderClass% %CameraClass% %ElementBufferClass% %VertexBufferClass% %VertexArrayClass% %StaticMeshClass% %MaterialClass% %TextureClass% %ModelClass%"
 
 set "IncludeDirectories=-ISource\Lib %ShaderID% %CameraID% %BufferID% %ModelID%"
 set "MainFileDirectory=Source\Main.cpp"

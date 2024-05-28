@@ -1,5 +1,5 @@
-#ifndef CFD_VERTEX_ARRAY_H
-#define CFD_VERTEX_ARRAY_H
+#ifndef CFD_VERTEX_ARRAY_HPP
+#define CFD_VERTEX_ARRAY_HPP
 
 #include <GL/glew.h>
 #include "VertexBuffer.hpp"
