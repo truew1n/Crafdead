@@ -61,7 +61,7 @@ int main(void)
     Camera MainCamera(Width, Height, glm::vec3(0.0f, 0.0f, 2.0f));
 
     Model YuccaModel;
-    YuccaModel.LoadOBJ("Assets\\Models\\Wall\\model.obj");
+    YuccaModel.LoadOBJ("Assets\\Models\\Cube\\model.obj");
 
     double CurrentTime = 0.0;
     double PreviouseTime = 0.0;

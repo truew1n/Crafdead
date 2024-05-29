@@ -5,6 +5,7 @@ Texture::Texture(const char *Image, const char *TextureType, uint32_t Slot)
     Type = TextureType;
 
 	int32_t TextureWidth, TextureHeight, TextureChannels;
+	stbi_set_flip_vertically_on_load(true);
 	uint8_t *TextureData = stbi_load(Image, &TextureWidth, &TextureHeight, &TextureChannels, 0);
 
 	glGenTextures(1, &Id);

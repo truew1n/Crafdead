@@ -79,7 +79,6 @@ void Model::LoadOBJ(const char *Filepath)
 
     bool HasMaterial = false;
     Material OMaterial;
-    std::unordered_map<uint32_t,uint32_t> VIM;
 
     std::string TextureFilepath;
     while (std::getline(File, Line)) {
@@ -90,22 +89,16 @@ void Model::LoadOBJ(const char *Filepath)
             std::vector<std::string> FaceTokens;
             for(uint32_t i = 1; i < 4; ++i) {
                 Split(&Tokens[i], &FaceTokens, '/');
-                uint32_t ModelIndex = std::stoi(FaceTokens[0]); 
-                uint32_t RealIndex;
-                if(VIM.find(ModelIndex) != VIM.end()) {
-                    RealIndex = VIM[ModelIndex];
-                } else {
-                    RealIndex = OStaticMesh.GetVerticesSize();
-                    VIM[ModelIndex] = RealIndex;
-                    Vertex OVertex;
-                    OVertex.Position = Vertices[std::stoi(FaceTokens[0]) - 1];
-                    OVertex.Normal = Normals[std::stoi(FaceTokens[2]) - 1];
-                    OVertex.UV = UVs[std::stoi(FaceTokens[1]) - 1];
-                    
-                    OStaticMesh.AddVertex(OVertex);
-                }
-                OStaticMesh.AddIndex(RealIndex);
+                uint32_t RealIndex = OStaticMesh.GetVerticesSize();
                 
+                Vertex OVertex;
+                OVertex.Position = Vertices[std::stoi(FaceTokens[0]) - 1];
+                OVertex.Normal = Normals[std::stoi(FaceTokens[2]) - 1];
+                OVertex.UV = UVs[std::stoi(FaceTokens[1]) - 1];
+
+                OStaticMesh.AddVertex(OVertex);
+                
+                OStaticMesh.AddIndex(RealIndex);
                 FaceTokens.clear();
             }
         } else if(Tokens[0] == "vt") {
@@ -140,8 +133,6 @@ void Model::LoadOBJ(const char *Filepath)
             } else {
                 HasMaterial = true;
             }
-
-            VIM.clear();
         } else if(Tokens[0] == "o") {
             // Object name, you can use this if needed
         } else if(Tokens[0] == "mtllib") {
