@@ -46,12 +46,11 @@ void Model::ParseMTL(const char *Filepath, std::unordered_map<std::string, std::
         } else if(Tokens[0] == "map_Kd") {
             if(FoundKey) {
                 (*MTL)[CurrentKey] = Tokens[1];
-                std::cout << CurrentKey << " " << Tokens[1] << std::endl;
                 CurrentKey = "";
                 FoundKey = false;
             }
         }
-
+        
         Tokens.clear();
     }
 }

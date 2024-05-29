@@ -54,14 +54,14 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
 
-    // glEnable(GL_CULL_FACE);
-    // glCullFace(GL_FRONT);
-    // glFrontFace(GL_CCW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CW);
 
     Camera MainCamera(Width, Height, glm::vec3(0.0f, 0.0f, 2.0f));
 
     Model YuccaModel;
-    YuccaModel.LoadOBJ("Assets\\Models\\Cube\\model.obj");
+    YuccaModel.LoadOBJ("Assets\\Models\\BaseballBat\\model.obj");
 
     double CurrentTime = 0.0;
     double PreviouseTime = 0.0;
