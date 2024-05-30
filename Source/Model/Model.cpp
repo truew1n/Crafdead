@@ -76,7 +76,7 @@ void Model::LoadOBJ(const char *Filepath)
     std::vector<std::string> Tokens;
     std::string Line;
 
-    bool HasMaterial = false;
+    uint16_t MaterialCount = 0;
     Material OMaterial;
 
     std::string TextureFilepath;
@@ -119,19 +119,18 @@ void Model::LoadOBJ(const char *Filepath)
             ));
         } else if(Tokens[0] == "usemtl") {
             TextureFilepath = (FileDirectory + MTL[Tokens[1]]);
-            if (HasMaterial) {
-                StaticMeshes.push_back(OStaticMesh);
-                
-                OStaticMesh = StaticMesh();
-                
+            
+            if (MaterialCount) {
                 OMaterial.SetTexture(Texture(TextureFilepath.c_str(), "Diffuse", 0));
-                std::cout << TextureFilepath.c_str() << std::endl;
                 OStaticMesh.SetMaterial(&OMaterial);
                 
                 OStaticMesh.Link();
-            } else {
-                HasMaterial = true;
+                StaticMeshes.push_back(OStaticMesh);
+                
+                OStaticMesh = StaticMesh();
             }
+
+            MaterialCount++;
         } else if(Tokens[0] == "o") {
             // Object name, you can use this if needed
         } else if(Tokens[0] == "mtllib") {
@@ -142,11 +141,9 @@ void Model::LoadOBJ(const char *Filepath)
     }
     
     OMaterial.SetTexture(Texture(TextureFilepath.c_str(), "Diffuse", 0));
-    std::cout << TextureFilepath.c_str() << std::endl;
     OStaticMesh.SetMaterial(&OMaterial);
     
     OStaticMesh.Link();
-
     StaticMeshes.push_back(OStaticMesh);
     bIsLoaded = true;
 }
