@@ -9,13 +9,15 @@
 #include <unordered_map>
 #include "StaticMesh.hpp"
 
+typedef std::unordered_map<std::string, std::unordered_map<std::string, std::string>> MTLLIB;
+
 class Model {
 private:
     uint8_t bIsLoaded;
     std::vector<StaticMesh> StaticMeshes;
     
     void Split(std::string *String, std::vector<std::string> *Tokens, char Delimiter);
-    void ParseMTL(const char *Filepath, std::unordered_map<std::string, std::string> *MTL);
+    void ParseMTL(const char *Filepath, MTLLIB *MTL);
 public:
     Model() : bIsLoaded(false), StaticMeshes() {}
     void LoadOBJ(const char *Filepath);

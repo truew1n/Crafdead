@@ -9,7 +9,16 @@ void Model::Draw(Shader *OShader, Camera *OCamera)
         glUniform3f(glGetUniformLocation(OShader->GetId(), "CameraPosition"), OCamera->Position.x, OCamera->Position.y, OCamera->Position.z);
         OCamera->Matrix(OShader, "CameraMatrix");
         
-        OStaticMesh.Draw();
+
+        if(OStaticMesh.GetMaterial()->IsTransparent()) {
+            glDisable(GL_CULL_FACE);
+            OStaticMesh.Draw();
+            glEnable(GL_CULL_FACE);
+        } else {
+            OStaticMesh.Draw();
+        }
+
+        OStaticMesh.GetMaterial()->UnbindAll();
     }
 }
 
@@ -24,7 +33,7 @@ void Model::Split(std::string *String, std::vector<std::string> *Tokens, char De
     }
 }
 
-void Model::ParseMTL(const char *Filepath, std::unordered_map<std::string, std::string> *MTL)
+void Model::ParseMTL(const char *Filepath, MTLLIB *MTL)
 {
     std::ifstream File(Filepath);
     if (!File.is_open()) {
@@ -43,11 +52,13 @@ void Model::ParseMTL(const char *Filepath, std::unordered_map<std::string, std::
         if(Tokens[0] == "newmtl") {
             FoundKey = true;
             CurrentKey = Tokens[1];
-        } else if(Tokens[0] == "map_Kd") {
+        } else if(Tokens.size() == 2) {
             if(FoundKey) {
-                (*MTL)[CurrentKey] = Tokens[1];
-                CurrentKey = "";
-                FoundKey = false;
+                (*MTL)[CurrentKey][Tokens[0]] = Tokens[1];
+            }
+        } else if(Tokens.size() == 4) {
+            if(FoundKey) {
+                (*MTL)[CurrentKey][Tokens[0]] = Tokens[1] + Tokens[2] + Tokens[3];
             }
         }
         
@@ -72,14 +83,14 @@ void Model::LoadOBJ(const char *Filepath)
     std::vector<glm::vec3> Normals;
     std::vector<glm::vec2> UVs;
 
-    std::unordered_map<std::string, std::string> MTL;
+    MTLLIB MTL;
     std::vector<std::string> Tokens;
     std::string Line;
 
     uint16_t MaterialCount = 0;
     Material OMaterial;
 
-    std::string TextureFilepath;
+    std::vector<std::pair<std::string, TextureType>> TextureFilepaths;
     while (std::getline(File, Line)) {
         Split(&Line, &Tokens, ' ');
         if(Tokens.empty());
@@ -118,10 +129,22 @@ void Model::LoadOBJ(const char *Filepath)
                 std::stof(Tokens[3])
             ));
         } else if(Tokens[0] == "usemtl") {
-            TextureFilepath = (FileDirectory + MTL[Tokens[1]]);
-            
             if (MaterialCount) {
-                OMaterial.SetTexture(Texture(TextureFilepath.c_str(), "Diffuse", 0));
+                for(std::pair<std::string, TextureType> TextureData : TextureFilepaths) {
+                    const char *StringType = "Diffuse";
+                    switch(TextureData.second) {
+                        case TextureType::DIFFUSE: {
+                            StringType = "Diffuse";
+                            break;
+                        }
+                        case TextureType::TRANSPARENT: {
+                            StringType = "Transparent";
+                            break;
+                        }
+                    }
+                    OMaterial.SetTexture(Texture(TextureData.first.c_str(), StringType, (uint32_t) TextureData.second), TextureData.second);
+                }
+                TextureFilepaths.clear();
                 OStaticMesh.SetMaterial(&OMaterial);
                 
                 OStaticMesh.Link();
@@ -131,6 +154,20 @@ void Model::LoadOBJ(const char *Filepath)
             }
 
             MaterialCount++;
+            
+            for(std::pair<std::string, std::string> MaterialData : MTL[Tokens[1]]) {
+                if(MaterialData.first == "map_Kd") {
+                    TextureFilepaths.push_back(std::make_pair<std::string, TextureType>(
+                        FileDirectory + MaterialData.second,
+                        TextureType::DIFFUSE
+                    ));
+                } else if(MaterialData.first == "map_d") {
+                    TextureFilepaths.push_back(std::make_pair<std::string, TextureType>(
+                        FileDirectory + MaterialData.second,
+                        TextureType::TRANSPARENT
+                    ));
+                }
+            }
         } else if(Tokens[0] == "o") {
             // Object name, you can use this if needed
         } else if(Tokens[0] == "mtllib") {
@@ -140,7 +177,20 @@ void Model::LoadOBJ(const char *Filepath)
         Tokens.clear();
     }
     
-    OMaterial.SetTexture(Texture(TextureFilepath.c_str(), "Diffuse", 0));
+    for(std::pair<std::string, TextureType> TextureData : TextureFilepaths) {
+        const char *StringType = "Diffuse";
+        switch(TextureData.second) {
+            case TextureType::DIFFUSE: {
+                StringType = "Diffuse";
+                break;
+            }
+            case TextureType::TRANSPARENT: {
+                StringType = "Transparent";
+                break;
+            }
+        }
+        OMaterial.SetTexture(Texture(TextureData.first.c_str(), StringType, (uint32_t) TextureData.second), TextureData.second);
+    }
     OStaticMesh.SetMaterial(&OMaterial);
     
     OStaticMesh.Link();

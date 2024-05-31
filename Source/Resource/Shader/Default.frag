@@ -7,9 +7,20 @@ in vec3 Normal;
 in vec2 UV;
 
 uniform sampler2D Diffuse;
+uniform sampler2D Transparent;
+uniform float bTransparent;
 
 void main()
 {
-	FragColor = texture(Diffuse, UV);
-	// FragColor = vec4(UV.x, UV.y, 0.0f, 1.0f);
+    vec4 DiffuseColor = texture(Diffuse, UV);
+    float Alpha = texture(Transparent, UV).r;
+
+    vec4 FinalColor = vec4(1.0);
+    if(bTransparent == 1.0) {
+        FinalColor = mix(DiffuseColor, vec4(DiffuseColor.rgb, Alpha), 1.0 - Alpha);
+    } else {
+        FinalColor = DiffuseColor;
+    }
+
+    FragColor = FinalColor;
 }
