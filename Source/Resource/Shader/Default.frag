@@ -16,8 +16,9 @@ void main()
     float Alpha = texture(Transparent, UV).r;
 
     vec4 FinalColor = vec4(1.0);
-    if(bTransparent == 1.0) {
-        FinalColor = mix(DiffuseColor, vec4(DiffuseColor.rgb, Alpha), 1.0 - Alpha);
+    if(bTransparent == 1.0f) {
+        if(Alpha != 1.0) discard;
+        else FinalColor = mix(DiffuseColor, vec4(DiffuseColor.rgb, Alpha), 1.0 - Alpha);
     } else {
         FinalColor = DiffuseColor;
     }

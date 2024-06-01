@@ -54,9 +54,9 @@ int main(void)
 
     glEnable(GL_DEPTH_TEST);
 
-    // glEnable(GL_CULL_FACE);
-    // glCullFace(GL_FRONT);
-    // glFrontFace(GL_CW);
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_BACK);
+    glFrontFace(GL_CCW);
 
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
@@ -64,7 +64,7 @@ int main(void)
     Camera MainCamera(Width, Height, glm::vec3(0.0f, 0.0f, 2.0f));
 
     Model YuccaModel;
-    YuccaModel.LoadOBJ("Assets\\Models\\Yucca\\model.obj");
+    YuccaModel.LoadOBJ("Assets\\Models\\Lupine\\model.obj");
 
     double CurrentTime = 0.0;
     double PreviouseTime = 0.0;

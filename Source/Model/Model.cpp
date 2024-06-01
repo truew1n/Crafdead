@@ -14,6 +14,7 @@ void Model::Draw(Shader *OShader, Camera *OCamera)
             glDisable(GL_CULL_FACE);
             OStaticMesh.Draw();
             glEnable(GL_CULL_FACE);
+            glCullFace(GL_BACK);
         } else {
             OStaticMesh.Draw();
         }
